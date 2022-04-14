@@ -1,0 +1,64 @@
+name: nuget
+
+on:
+  create:
+    tags:
+      - v*
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        submodules: recursive
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 6.0.x
+    - uses: actions/cache@v2
+      with:
+        path: ~/.nuget/packages
+        key: ${{runner.os}}-nuget
+    - name: Restore dependencies
+      run: dotnet restore
+    - name: Build
+      run: |
+        dotnet build --no-restore
+    - name: Test
+      run: dotnet test --no-build --logger trx --results-directory "TestResults"
+    - name: Upload dotnet test results
+      uses: actions/upload-artifact@v2
+      with:
+        name: dotnet-results
+        path: TestResults
+      if: ${{always()}}
+  publish:
+    needs: [build]
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        submodules: recursive
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 6.0.x 
+    - uses: actions/cache@v2
+      with:
+        path: ~/.nuget/packages
+        key: ${{runner.os}}-nuget
+    - name: Pack
+      env:
+        GIT_REF: ${{github.ref_name}}
+        GIT_REF_TYPE: ${{github.ref_type}}
+        GIT_COMMIT_SHA: ${{github.sha}}
+        PROJECT_URL: https://github.com/${{github.repository}}
+        REPO_URL: ${{github.repositoryUrl}}
+      run: |
+        dotnet pack -c NugetRelease ArkProjects.XUnit -o ./out
+    - name: Dist
+      uses: actions/upload-artifact@v2
+      with:
+        name: nuget_packages
+        path: ./out
