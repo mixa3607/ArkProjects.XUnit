@@ -1,10 +1,25 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
 namespace ArkProjects.XUnit.Json
 {
     public static class XUnitJsonSettings
     {
-        public static readonly JsonSerializerSettings SerializerSettings = new JsonSerializerSettings();
-        public static readonly JsonSerializer Serializer = JsonSerializer.Create(SerializerSettings);
+        private static JsonSerializerSettings? _jsonSerializerSettings;
+
+        public static JsonSerializerSettings GetJsonSerializerSettings()
+        {
+            if (_jsonSerializerSettings != null)
+            {
+                return _jsonSerializerSettings;
+            }
+
+            _jsonSerializerSettings = new JsonSerializerSettings();
+            _jsonSerializerSettings.Formatting = Formatting.Indented;
+            _jsonSerializerSettings.Converters.Add(new StringEnumConverter());
+            return _jsonSerializerSettings;
+        }
+
+        public static readonly JsonSerializer Serializer = JsonSerializer.Create(GetJsonSerializerSettings());
     }
 }

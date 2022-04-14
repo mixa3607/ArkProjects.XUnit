@@ -1,4 +1,5 @@
 ﻿{
+  "DataType": "MultiParams",
   "TestCases": [
     {
       "value": "test value 1"

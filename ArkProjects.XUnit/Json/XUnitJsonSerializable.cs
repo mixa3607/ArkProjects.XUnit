@@ -10,17 +10,17 @@ namespace ArkProjects.XUnit.Json
         public void Deserialize(IXunitSerializationInfo info)
         {
             var jsonStr = (string)info.GetValue(XUnitValueKey, typeof(string));
-            JsonConvert.PopulateObject(jsonStr, this, XUnitJsonSettings.SerializerSettings);
+            JsonConvert.PopulateObject(jsonStr, this, XUnitJsonSettings.GetJsonSerializerSettings());
         }
 
         public void Serialize(IXunitSerializationInfo info)
         {
-            info.AddValue(XUnitValueKey, JsonConvert.SerializeObject(this, XUnitJsonSettings.SerializerSettings));
+            info.AddValue(XUnitValueKey, JsonConvert.SerializeObject(this, XUnitJsonSettings.GetJsonSerializerSettings()));
         }
 
         public override string ToString()
         {
-            return JsonConvert.SerializeObject(this, XUnitJsonSettings.SerializerSettings);
+            return JsonConvert.SerializeObject(this, XUnitJsonSettings.GetJsonSerializerSettings());
         }
     }
 }

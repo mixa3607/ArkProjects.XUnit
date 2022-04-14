@@ -33,14 +33,39 @@ namespace ArkProjects.XUnit.Json.JsonBuilder
 
         public JsonDataBuilder ForMethod<T>(Expression<Action<T>> methodSelector)
         {
-            if (methodSelector.NodeType != ExpressionType.Call)
+            var callExpression = ExtractCallExpression(methodSelector);
+            _targetMethod = callExpression.Method;
+            return this;
+        }
+
+        public JsonDataBuilder ForMethod(Expression<Action> methodSelector)
+        {
+            var callExpression = ExtractCallExpression(methodSelector);
+            _targetMethod = callExpression.Method;
+            return this;
+        }
+
+        private MethodCallExpression ExtractCallExpression(Expression methodSelector)
+        {
+            MethodCallExpression? callExpression = null;
+            if (methodSelector.NodeType == ExpressionType.Lambda)
             {
-                throw new Exception("Support only Call expressions");
+                var lambdaExp = (LambdaExpression)methodSelector;
+                if (lambdaExp.Body.NodeType == ExpressionType.Call)
+                {
+                    callExpression = (MethodCallExpression)lambdaExp.Body;
+                }
+            }
+            if (methodSelector.NodeType == ExpressionType.Call)
+            {
+                callExpression = (MethodCallExpression)methodSelector;
+            }
+            if (callExpression == null)
+            {
+                throw new NotSupportedException("Not supported expression");
             }
 
-            var callExp = (MethodCallExpression)methodSelector.Body;
-            _targetMethod = callExp.Method;
-            return this;
+            return callExpression;
         }
 
         public JsonTestData Build()
@@ -103,9 +128,15 @@ namespace ArkProjects.XUnit.Json.JsonBuilder
 
         public void Save(string outPath)
         {
-            var data = Build();
-            var jsonStr = JsonConvert.SerializeObject(data, XUnitJsonSettings.SerializerSettings);
+            var jsonStr = Serialize();
             File.WriteAllText(outPath, jsonStr);
+        }
+
+        public string Serialize()
+        {
+            var data = Build();
+            var jsonStr = JsonConvert.SerializeObject(data, XUnitJsonSettings.GetJsonSerializerSettings());
+            return jsonStr;
         }
 
         private void AddCaseInternal(JsonDataBuilderTestCase testCase)

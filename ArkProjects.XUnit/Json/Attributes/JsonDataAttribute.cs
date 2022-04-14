@@ -30,7 +30,7 @@ namespace ArkProjects.XUnit.Json
             var path = JsonDataHelper.PreparePath(_path, testMethod);
 
             var jsonStr = File.ReadAllText(path);
-            var json = JsonConvert.DeserializeObject<JsonTestData>(jsonStr, XUnitJsonSettings.SerializerSettings);
+            var json = JsonConvert.DeserializeObject<JsonTestData>(jsonStr, XUnitJsonSettings.GetJsonSerializerSettings());
             if (json == null)
                 throw new InvalidDataException("Json deserialized as null");
 

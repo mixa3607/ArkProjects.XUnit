@@ -1,21 +1,10 @@
 using System;
 using System.Linq;
 using ArkProjects.XUnit.Json;
-using Newtonsoft.Json;
 using Xunit;
-using Xunit.Abstractions;
 
 namespace ArkProjects.XUnit.Test
 {
-    public class JsonDataBuilderTests
-    {
-        [Fact]
-        public void T()
-        {
-
-        }
-    }
-
     public class JsonDataAttributeTests
     {
         public class TestModel : XUnitJsonSerializable
@@ -46,7 +35,7 @@ namespace ArkProjects.XUnit.Test
         }
 
         [Theory]
-        [JsonData("./files/tests/{class}/MultiParam.json", Skip = "123")]
+        [JsonData("./files/tests/{class}/MultiParam.json")]
         public void MultiParam(string value, TestModel model)
         {
         }

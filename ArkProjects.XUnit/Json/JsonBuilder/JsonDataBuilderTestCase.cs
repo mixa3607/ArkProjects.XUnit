@@ -18,7 +18,7 @@ namespace ArkProjects.XUnit.Json.JsonBuilder
             DataType = dataType;
         }
 
-        public JsonDataBuilderTestCase AppendArray(params object[] parameters)
+        public JsonDataBuilderTestCase AppendPositioned(params object[] parameters)
         {
             if (_parametersDict != null)
             {
@@ -35,7 +35,7 @@ namespace ArkProjects.XUnit.Json.JsonBuilder
             return this;
         }
 
-        public JsonDataBuilderTestCase SetParam(string parameterName, object? value)
+        public JsonDataBuilderTestCase SetNamed(string parameterName, object? value)
         {
             if (_parametersList != null)
             {
