@@ -61,6 +61,7 @@ jobs:
       with:
         name: nuget_packages
         path: ./out
+      if: ${{always()}}
     - name: NugetPush
       env: 
         NUGET_KEY: ${{secrets.NUGET_KEY}}
