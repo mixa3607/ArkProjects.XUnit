@@ -61,7 +61,7 @@ jobs:
       with:
         name: nuget_packages
         path: ./out
-     - name: Nuget push
+    - name: NugetPush
       env: 
         GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
         USERNAME: mixa3607
