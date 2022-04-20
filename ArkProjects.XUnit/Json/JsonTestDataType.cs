@@ -13,7 +13,7 @@ namespace ArkProjects.XUnit.Json
         SingleParam,
 
         /// <summary>
-        /// Force dictionary (paramName &lt;=&gt; data)
+        /// Force dictionary (paramName &lt;=&gt; data) or array of positioned parameters
         /// </summary>
         MultiParams
     }
