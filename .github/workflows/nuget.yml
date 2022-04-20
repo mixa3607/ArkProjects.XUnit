@@ -1,7 +1,7 @@
 name: nuget
 
 on:
-  create:
+  push:
     tags:
       - v*
 
@@ -66,4 +66,4 @@ jobs:
         NUGET_KEY: ${{secrets.NUGET_KEY}}
         USERNAME: mixa3607
       run: |
-        dotnet nuget push ./out/*.nupkg -k $NUGET_KEY
+        dotnet nuget push ./out/*.nupkg --source nuget.org -k $NUGET_KEY
