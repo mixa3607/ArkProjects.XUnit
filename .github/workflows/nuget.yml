@@ -63,8 +63,7 @@ jobs:
         path: ./out
     - name: NugetPush
       env: 
-        GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+        NUGET_KEY: ${{secrets.NUGET_KEY}}
         USERNAME: mixa3607
       run: |
-        dotnet nuget add source --username $USERNAME --password $GITHUB_TOKEN --store-password-in-clear-text --name github "https://nuget.pkg.github.com/$USERNAME/index.json"
-        dotnet nuget push ./out/*.nupkg --source github -k $GITHUB_TOKEN
+        dotnet nuget push ./out/*.nupkg -k $NUGET_KEY
