@@ -12,8 +12,8 @@
       "value": "test value 2",
       "value2": 2,
       "model": {
-        "Value1": "2v1-",
-        "Value2": "2v2-"
+        "Value1": "2v1",
+        "Value2": "2v2"
       }
     }
   ]

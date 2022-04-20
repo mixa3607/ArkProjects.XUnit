@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using ArkProjects.XUnit.Json;
+using FluentAssertions;
 using Xunit;
 
 namespace ArkProjects.XUnit.Test
@@ -24,6 +25,23 @@ namespace ArkProjects.XUnit.Test
             }
         };
 
+        public record TestModelRecord
+        {
+            [XUnitJsonFileName]
+            public string File { get; set; }
+
+            [XUnitJsonCaseIndex]
+            public int? Idx { get; set; }
+
+            public string Value1 { get; set; }
+            public string Value2 { get; set; }
+
+            public override string ToString()
+            {
+                return $"[{Idx}]{File}";
+            }
+        };
+
         private void SingleParam(string value)
         {
         }
@@ -32,6 +50,46 @@ namespace ArkProjects.XUnit.Test
         [JsonData("./files/tests/{class}/MultiParam2.json")]
         public void MultiParam2(string value, int value2, TestModel model)
         {
+            model.File.Should().Be("./files/tests/JsonDataAttributeTests/MultiParam2.json");
+            if (model.Idx == 0)
+            {
+                value.Should().Be("test value 1");
+                value2.Should().Be(1);
+                model.Value1.Should().Be("1v1");
+                model.Value2.Should().Be("1v2");
+            }
+            else if (model.Idx == 1)
+            {
+                value.Should().Be("test value 2");
+                value2.Should().Be(2);
+                model.Value1.Should().Be("2v1");
+                model.Value2.Should().Be("2v2");
+            }
+            else
+            {
+                throw new Exception();
+            }
+        }
+
+        [Theory]
+        [JsonData("./files/tests/{class}/SingleParam2.json")]
+        public void SingleParam2(TestModelRecord model)
+        {
+            model.File.Should().Be("./files/tests/JsonDataAttributeTests/SingleParam2.json");
+            if (model.Idx == 0)
+            {
+                model.Value1.Should().Be("1v1");
+                model.Value2.Should().Be("1v2");
+            }
+            else if (model.Idx == 1)
+            {
+                model.Value1.Should().Be("2v1");
+                model.Value2.Should().Be("2v2");
+            }
+            else
+            {
+                throw new Exception();
+            }
         }
 
         [Theory]

@@ -100,7 +100,13 @@ namespace ArkProjects.XUnit.Json
 
         internal static IReadOnlyList<object?[]> ExtractSingle(IReadOnlyList<JToken> jTokens, ParameterInfo parameter, Dictionary<Type, object> valuesByAttr)
         {
-            return jTokens.Select(x => new[] { x?.ToObject(parameter.ParameterType, XUnitJsonSettings.Serializer) }).ToArray();
+            return jTokens.Select((x, i) =>
+            {
+                valuesByAttr[typeof(XUnitJsonCaseIndexAttribute)] = i;
+                var obj = x?.ToObject(parameter.ParameterType, XUnitJsonSettings.Serializer);
+                SetValuesByAttrs(obj, valuesByAttr);
+                return new[] { obj };
+            }).ToArray();
         }
 
 
@@ -127,7 +133,16 @@ namespace ArkProjects.XUnit.Json
                 {
                     if (valuesByAttr.TryGetValue(customAttr.GetType(), out var val))
                     {
-                        var propVal = Convert.ChangeType(val, propertyInfo.PropertyType);
+                        object? propVal = null; 
+                        var typeUnderNullable = Nullable.GetUnderlyingType(propertyInfo.PropertyType);
+                        if (typeUnderNullable != null)
+                        {
+                            propVal = Convert.ChangeType(val, typeUnderNullable);
+                        }
+                        else
+                        {
+                            propVal = Convert.ChangeType(val, propertyInfo.PropertyType);
+                        }
                         propertyInfo.SetValue(obj, propVal);
                     }
                 }

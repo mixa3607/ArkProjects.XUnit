@@ -1,0 +1,12 @@
+﻿{
+  "TestCases": [
+    {
+      "Value1": "1v1",
+      "Value2": "1v2"
+    },
+    {
+      "Value1": "2v1",
+      "Value2": "2v2"
+    }
+  ]
+}
