@@ -19,8 +19,9 @@
 		<DebugType>pdbonly</DebugType>
 		<Optimize>true</Optimize>
 		<DefineConstants>TRACE</DefineConstants>
-		<AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
+		<IncludeSymbols>true</IncludeSymbols>
+		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
 	</PropertyGroup>
 
 	<ItemGroup Condition="'$(Configuration)' == 'NugetRelease'">

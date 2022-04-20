@@ -55,7 +55,7 @@ jobs:
         PROJECT_URL: https://github.com/${{github.repository}}
         REPO_URL: ${{github.repositoryUrl}}
       run: |
-        dotnet pack -c NugetRelease ArkProjects.XUnit -o ./out
+        dotnet pack -c NugetRelease ArkProjects.XUnit -o ./out -p:ContinuousIntegrationBuild=true
     - name: Dist
       uses: actions/upload-artifact@v2
       with:

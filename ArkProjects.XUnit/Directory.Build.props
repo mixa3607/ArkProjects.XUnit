@@ -17,6 +17,8 @@
 
 		<RepositoryType>git</RepositoryType>
 		<RepositoryUrl>$(REPO_URL)</RepositoryUrl>
+		<RepositoryBranch>$(GIT_REF)</RepositoryBranch>
+		<RepositoryCommit>$(GIT_COMMIT_SHA)</RepositoryCommit>
 		<PackageProjectUrl>$(PROJECT_URL)</PackageProjectUrl>
 		<Authors>$(AUTHORS)</Authors>
 
