@@ -1,0 +1,20 @@
+﻿{
+  "TestCases": [
+    {
+      "value": "test value 1",
+      "value2": 1,
+      "model": {
+        "Value1": "1v1",
+        "Value2": "1v2"
+      }
+    },
+    {
+      "value": "test value 2",
+      "value2": 2,
+      "model": {
+        "Value1": "2v1-",
+        "Value2": "2v2-"
+      }
+    }
+  ]
+}

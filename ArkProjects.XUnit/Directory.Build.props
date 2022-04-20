@@ -1,0 +1,55 @@
+<Project>
+	<PropertyGroup>
+		<!--For manual nuget build you must export GIT_REF_TYPE=tag and GIT_REF=v<version> to env-->
+		<GIT_REF Condition="'$(GIT_REF)' == ''">local</GIT_REF>
+		<GIT_REF_TYPE Condition="'$(GIT_REF_TYPE)' == ''">branch</GIT_REF_TYPE>
+		<GIT_COMMIT_SHA Condition="'$(GIT_COMMIT_SHA)' == ''">deadbeef</GIT_COMMIT_SHA>
+
+		<VERSION Condition="'$(VERSION)' == '' and '$(GIT_REF_TYPE)' == 'tag'">$([System.Text.RegularExpressions.Regex]::Match($(GIT_REF), 'v(?&lt;ver&gt;(\d+\.)*\d+)').Groups['ver'].Value)</VERSION>
+		<FULL_VERSION Condition="'$(FULL_VERSION)' == '' and '$(GIT_REF_TYPE)' == 'tag'">$([System.Text.RegularExpressions.Regex]::Match($(GIT_REF), 'v(?&lt;ver&gt;(\d+\.)*\d+.*)').Groups['ver'].Value)</FULL_VERSION>
+		<VERSION Condition="'$(VERSION)' == ''">0.0.0.0</VERSION>
+		<FULL_VERSION Condition="'$(FULL_VERSION)' == ''">$(VERSION)</FULL_VERSION>
+
+		<AUTHORS Condition="'$(AUTHORS)' == ''">mixa3607</AUTHORS>
+		<PROJECT_URL Condition="'$(PROJECT_URL)' == ''">https://test.com/user/project</PROJECT_URL>
+		<REPO_URL Condition="'$(REPO_URL)' == ''">git@test.com:user/project.git</REPO_URL>
+		<BUILD_DATE>$([System.DateTime]::Now.ToString())</BUILD_DATE>
+
+		<RepositoryType>git</RepositoryType>
+		<RepositoryUrl>$(REPO_URL)</RepositoryUrl>
+		<PackageProjectUrl>$(PROJECT_URL)</PackageProjectUrl>
+		<Authors>$(AUTHORS)</Authors>
+
+		<AssemblyVersion>$(VERSION)</AssemblyVersion>
+		<FileVersion>$(VERSION)</FileVersion>
+		<Version>$(VERSION)</Version>
+		<PackageVersion>$(FULL_VERSION)</PackageVersion>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<AssemblyAttribute Include="System.Reflection.AssemblyMetadataAttribute" Condition="'$(GIT_REF)' != ''">
+			<_Parameter1>GIT_REF</_Parameter1>
+			<_Parameter2>$(GIT_REF)</_Parameter2>
+		</AssemblyAttribute>
+		<AssemblyAttribute Include="System.Reflection.AssemblyMetadataAttribute" Condition="'$(GIT_REF_TYPE)' != ''">
+			<_Parameter1>GIT_REF_TYPE</_Parameter1>
+			<_Parameter2>$(GIT_REF_TYPE)</_Parameter2>
+		</AssemblyAttribute>
+		<AssemblyAttribute Include="System.Reflection.AssemblyMetadataAttribute" Condition="'$(GIT_COMMIT_SHA)' != ''">
+			<_Parameter1>GIT_COMMIT_SHA</_Parameter1>
+			<_Parameter2>$(GIT_COMMIT_SHA)</_Parameter2>
+		</AssemblyAttribute>
+		<AssemblyAttribute Include="System.Reflection.AssemblyMetadataAttribute" Condition="'$(BUILD_DATE)' != ''">
+			<_Parameter1>BUILD_DATE</_Parameter1>
+			<_Parameter2>$(BUILD_DATE)</_Parameter2>
+		</AssemblyAttribute>
+		<AssemblyAttribute Include="System.Reflection.AssemblyMetadataAttribute" Condition="'$(PROJECT_URL)' != ''">
+			<_Parameter1>PROJECT_URL</_Parameter1>
+			<_Parameter2>$(PROJECT_URL)</_Parameter2>
+		</AssemblyAttribute>
+		<AssemblyAttribute Include="System.Reflection.AssemblyMetadataAttribute" Condition="'$(REPO_URL)' != ''">
+			<_Parameter1>REPO_URL</_Parameter1>
+			<_Parameter2>$(REPO_URL)</_Parameter2>
+		</AssemblyAttribute>
+	</ItemGroup>
+</Project>
